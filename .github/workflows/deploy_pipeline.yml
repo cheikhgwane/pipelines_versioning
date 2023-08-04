@@ -1,0 +1,16 @@
+name: Pipeline deployment
+on: [push]
+jobs:
+  install-openhexa-sdk:
+    runs-on: ubuntu-latest
+    env:
+        API_URL: https://app.demo.openhexa.org/
+        WORKSPACE: <workspace_slug>
+        ACCESS_TOKEN: token
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+      - run: pip install openhexa.sdk
+      - run: openhexa config set_url $API_URL
+      - run: |
+           echo "Commit url : https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
